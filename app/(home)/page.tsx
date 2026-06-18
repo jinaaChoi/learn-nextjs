@@ -1,25 +1,23 @@
+import Link from "next/link";
+import { API_URL } from "../constants";
+
 export const metadata = {
   title: "Home",
 };
-import Link from "next/link";
-import { useEffect, useState } from "react";
-export const API_URL = "https://nomad-movies-2.nomadcoders.workers.dev/movies";
 
 async function getMovies() {
-  const response = await fetch(API_URL, {
-    cache: "force-cache",
-    next: { revalidate: 10 },
-  });
+  // await new Promise((resolve) => setTimeout(resolve, 1000));
+  // Use the standard fetch cache option to force caching in Next.js
+  const response = await fetch(API_URL, { cache: "force-cache" });
   const json = await response.json();
   return json;
 }
 
-export default async function Page() {
+export default async function HomePage() {
   const movies = await getMovies();
-
   return (
     <div>
-      {movies.map((movie: any) => (
+      {movies.map((movie) => (
         <li key={movie.id}>
           <Link href={`/movies/${movie.id}`}>{movie.title}</Link>
         </li>

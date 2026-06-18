@@ -1,3 +1,3 @@
 export default function Loading() {
-  return <div>Loading a movie :id</div>;
+  return <h2>Loading a movie :id</h2>;
 }

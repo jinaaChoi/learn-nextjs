@@ -1,16 +1,21 @@
-import { API_URL } from "../../../(home)/page";
+import { Suspense } from "react";
+import MovieInfo from "../../../../components/movie-info";
+import MovieVideos from "../../../../components/movie-videos";
 
-async function getMovie(id: string) {
-  const response = await fetch(`${API_URL}/${id}`);
-  return response.json();
-}
-
-interface RouteParams {
+export default async function MovieDetail({
+  params,
+}: {
   params: Promise<{ id: string }>;
-}
-
-export default async function MovieDetail({ params }: RouteParams) {
+}) {
   const { id } = await params;
-  const movie = await getMovie(id);
-  return <h1>Movie: {movie.title}</h1>;
+  return (
+    <div>
+      <Suspense fallback={<h4>Loading movie info...</h4>}>
+        <MovieInfo id={id} />
+      </Suspense>
+      <Suspense fallback={<h4>Loading movie videos...</h4>}>
+        <MovieVideos id={id} />
+      </Suspense>
+    </div>
+  );    
 }
